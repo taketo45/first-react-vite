@@ -1,37 +1,51 @@
-import { useState } from 'react'
+
 import './App.css'
-import Icon from '/2.jpeg'
-import Test from './Test'
-import Button from './components/Button';
+import { useForm } from './hooks/useForm'
+
 
 function App() {
-  const [flag, setFlag] = useState(false);
 
-  const test = () => {
-    setFlag(!flag);
-  };
+  //切り出したカスタムフックを呼び出す
+  const {
+    name,
+    email,
+    data,
+    handleNameChange,
+    handleEmailChange,
+  } = useForm();
 
-  const [aa, setAa] = useState("押される前");
-
-  const handleClick = () => {
-    setAa("ボタン押された！");
-  }
-
+  // console.log(data, "useStateで取得したデータ");
   return (
     <>
-      <h1>Vite + React</h1>
-      <p className="read-the-docs">リアクトの授業を受けています。</p>
+      {data.map((item, index) => (
+        <div key={index}>
+          <p>{index}</p>
+          <p>{item.title}</p>
+          <p>{item.id}</p>
+          <p>{item.userId}</p>
+        </div>
+      ))}
 
-      <h2 onClick={handleClick}>{aa}</h2>
-
-      <Button text="送信" />
-      <Button text="登録" />
-
-      <Test aaa="きんぱつかのみ" bb="原宿スタッフ"/>
-
-      <img src={Icon} alt="icon" onClick={test}/>
-      {flag && <p>クリックされました</p>}
-
+      <p>入力した名前：{name}</p>
+      <p>入力したメールアドレス：{email}</p>
+      <div>
+        <p>名前が入ります</p>
+        <input 
+          type="text"
+          placeholder="名前を入力"
+          onChange={handleNameChange}
+          value={name}
+        />
+      </div>
+      <div>
+        <p>メールアドレスがはいります</p>
+        <input 
+          type="text"
+          placeholder="メールアドレスを入力"
+          onChange={handleEmailChange}
+          value={email}
+        />
+      </div>
     </>
   )
 }
